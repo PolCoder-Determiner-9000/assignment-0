@@ -17,6 +17,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        val appState = AppState()
         setContent {
             Decision_making_appTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -44,4 +45,15 @@ fun GreetingPreview() {
     Decision_making_appTheme {
         Greeting("Android")
     }
+}
+
+class AppState {
+    val decision = listOf<String>("Should we go?", "No", "Yes")
+    var click: Int = 0
+}
+
+@Composable
+fun decision_screen(
+    modifier: Modifier = Modifier
+) {
 }
