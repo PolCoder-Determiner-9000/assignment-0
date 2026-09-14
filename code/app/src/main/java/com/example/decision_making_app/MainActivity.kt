@@ -4,24 +4,38 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.decision_making_app.ui.theme.Decision_making_appTheme
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        val appState = AppState()
         setContent {
             Decision_making_appTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
+                    DecisionScreen(
+                        decision = appState.decision,
+                        click = appState.click,
+                        addClick = { appState.click + 1 }, // This isn't how you
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -43,5 +57,71 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 fun GreetingPreview() {
     Decision_making_appTheme {
         Greeting("Android")
+    }
+}
+
+class AppState {
+    val decision = listOf("Should we go?", "No", "Yes")
+    var click: Int = 0
+}
+
+fun decideDecision(probability: Float): Int {
+    val decision = Random.nextFloat()
+    if (decision <= probability) {
+        return 1
+    }
+    return 2
+}
+
+@Composable
+fun DecisionScreen(
+    decision: List<String>,
+    click: Int,
+    addClick: (Int) -> Int,
+    modifier: Modifier = Modifier
+) {
+    var decide by remember { mutableIntStateOf(0) }
+
+    // TODO: Make sure logic works
+    // TODO: Make sure everything is aligned well
+    // TODO: Add_click will probably not add to the counter. Make sure it's added properly
+
+    Column(modifier = modifier.fillMaxSize()) {
+        Text(decision[decide])
+
+        Spacer(modifier = Modifier.width(8.dp))
+
+        Row(modifier = Modifier.padding(all = 16.dp)) {
+            Button(
+                onClick = {
+                    decide = decideDecision(0.5f)
+                    addClick(1)
+                }
+            ) {
+                Text("Ok!")
+            }
+
+            Button(
+                onClick = {
+                    decide = decideDecision(0.25f)
+                    addClick(1)
+                }
+            ) {
+                Text("Meh")
+            }
+
+            Button(
+                onClick = {
+                    decide = decideDecision(0.1f)
+                    addClick(1)
+                }
+            ) {
+                Text("Nah")
+            }
+        }
+
+        Spacer(modifier = Modifier.width(8.dp))
+
+        Text(click.toString())
     }
 }
