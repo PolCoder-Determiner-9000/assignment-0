@@ -97,7 +97,10 @@ fun DecisionScreen(
 
         Spacer(modifier = Modifier.width(24.dp))
 
-        Row(modifier = Modifier.padding(all = 16.dp)) {
+        Row(
+            modifier = Modifier.padding(all = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
             Button(
                 onClick = {
                     decide = decideDecision(0.5f)
