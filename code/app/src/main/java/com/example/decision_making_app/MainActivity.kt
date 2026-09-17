@@ -34,8 +34,6 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     DecisionScreen(
                         decision = appState.decision,
-                        click = appState.click,
-                        addClick = { appState.click + 1 }, // This isn't how you
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -62,12 +60,11 @@ fun GreetingPreview() {
 
 class AppState {
     val decision = listOf("Should we go?", "No", "Yes")
-    var click: Int = 0
 }
 
 fun decideDecision(probability: Float): Int {
     val decision = Random.nextFloat()
-    if (decision <= probability) {
+    if (decision >= probability) {
         return 1
     }
     return 2
@@ -76,11 +73,10 @@ fun decideDecision(probability: Float): Int {
 @Composable
 fun DecisionScreen(
     decision: List<String>,
-    click: Int,
-    addClick: (Int) -> Int,
     modifier: Modifier = Modifier
 ) {
     var decide by remember { mutableIntStateOf(0) }
+    var clickNum by remember { mutableIntStateOf(0) }
 
     // TODO: Make sure logic works
     // TODO: Make sure everything is aligned well
@@ -95,7 +91,7 @@ fun DecisionScreen(
             Button(
                 onClick = {
                     decide = decideDecision(0.5f)
-                    addClick(1)
+                    clickNum += 1
                 }
             ) {
                 Text("Ok!")
@@ -104,7 +100,7 @@ fun DecisionScreen(
             Button(
                 onClick = {
                     decide = decideDecision(0.25f)
-                    addClick(1)
+                    clickNum += 1
                 }
             ) {
                 Text("Meh")
@@ -113,7 +109,7 @@ fun DecisionScreen(
             Button(
                 onClick = {
                     decide = decideDecision(0.1f)
-                    addClick(1)
+                    clickNum += 1
                 }
             ) {
                 Text("Nah")
@@ -122,6 +118,6 @@ fun DecisionScreen(
 
         Spacer(modifier = Modifier.width(8.dp))
 
-        Text(click.toString())
+        Text(clickNum.toString())
     }
 }
