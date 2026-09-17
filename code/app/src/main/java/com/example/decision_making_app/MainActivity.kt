@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -22,6 +23,8 @@ import androidx.compose.ui.unit.dp
 import com.example.decision_making_app.ui.theme.Decision_making_appTheme
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.unit.sp
 import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
@@ -82,10 +85,17 @@ fun DecisionScreen(
     // TODO: Make sure everything is aligned well
     // TODO: Add_click will probably not add to the counter. Make sure it's added properly
 
-    Column(modifier = modifier.fillMaxSize()) {
-        Text(decision[decide])
+    Column(
+        modifier = modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = decision[decide],
+            fontSize = 32.sp
+        )
 
-        Spacer(modifier = Modifier.width(8.dp))
+        Spacer(modifier = Modifier.width(24.dp))
 
         Row(modifier = Modifier.padding(all = 16.dp)) {
             Button(
