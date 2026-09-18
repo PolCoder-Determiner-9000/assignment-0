@@ -132,5 +132,9 @@ fun DecisionScreen(
         Spacer(modifier = Modifier.width(8.dp))
 
         Text(clickNum.toString())
+
+        Spacer(modifier = Modifier.width(8.dp))
+
+        Text("CCID: gabe1, ID: 1848829")
     }
 }
